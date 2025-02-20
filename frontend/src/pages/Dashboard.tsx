@@ -1,65 +1,60 @@
-import { useEffect, useState } from 'react';
-import { fetchTasks, createTask, updateTask, deleteTask } from '../api/tasks';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-type Task = {
+interface Task {
   id: string;
   title: string;
   description: string;
   completed: boolean;
-};
+}
 
 const Dashboard = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const navigate = useNavigate();
-
-  // Get user ID from localStorage (assuming it's stored after login)
+  const [tasks, setTasks] = useState<Task[]>([]); // ✅ Define type for tasks
+  const [loading, setLoading] = useState(false);
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     if (!userId) {
-      navigate('/login'); // Redirect to login if no user is found
+      alert('❌ No user ID found. Please log in.');
       return;
     }
 
-    fetchTasks(userId)
-      .then((res) => setTasks(res.data))
-      .catch((err) => console.error('Error fetching tasks:', err));
-  }, [userId, navigate]);
+    const fetchTasks = async () => {
+      setLoading(true);
+      try {
+        console.log(`🔹 Fetching tasks for user: ${userId}`);
+        const res = await axios.get(`http://localhost:3000/tasks/${userId}`);
+        setTasks(res.data); // ✅ Now TypeScript knows tasks has an 'id' field
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          console.error('❌ Error fetching tasks:', error.response?.data || error.message);
+        } else {
+          console.error('❌ Unexpected error:', error);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleAddTask = async () => {
-    if (!userId) return;
-    
-    try {
-      await createTask(userId, title, description);
-      setTitle('');
-      setDescription('');
-      const res = await fetchTasks(userId);
-      setTasks(res.data);
-    } catch (error) {
-      console.error('Error adding task:', error);
-    }
-  };
+    fetchTasks();
+  }, [userId]);
 
   return (
-    <div className="container">
-      <h2>Task Dashboard</h2>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Task Title" />
-      <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
-      <button onClick={handleAddTask}>Add Task</button>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            {task.title} - {task.completed ? '✅ Done' : '❌ Pending'}
-            <button onClick={() => updateTask(task.id, !task.completed)}>
-              {task.completed ? 'Undo' : 'Complete'}
-            </button>
-            <button onClick={() => deleteTask(task.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+    <div style={{ maxWidth: '600px', margin: 'auto', textAlign: 'center' }}>
+      <h2>Dashboard</h2>
+      {loading ? (
+        <p>Loading tasks...</p>
+      ) : (
+        <ul>
+          {tasks.map((task) => (
+            <li key={task.id}>
+              <strong>{task.title}</strong>
+              <p>{task.description}</p>
+              <p>Status: {task.completed ? '✅ Completed' : '❌ Not completed'}</p>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

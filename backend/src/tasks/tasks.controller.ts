@@ -6,36 +6,87 @@ import {
   Delete,
   Body,
   Param,
+  HttpCode,
+  HttpStatus,
+  UseGuards,
+  BadRequestException,
+  Request, // ✅ Import `@Request()`
 } from '@nestjs/common';
+import { Request as ExpressRequest } from 'express'; // ✅ Alias Express Request
 import { TasksService } from './tasks.service';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { UserPayload } from 'src/auth/user.interface';
+
+// ✅ Ensure UserPayload has an `id`
+interface AuthRequest extends ExpressRequest {
+  user: UserPayload & { id: string };
+}
 
 @Controller('tasks')
 export class TasksController {
-  constructor(private tasksService: TasksService) {}
+  constructor(private readonly tasksService: TasksService) {}
 
-  @Get(':userId')
-  getTasks(@Param('userId') userId: string) {
+  // ✅ GET all tasks for the logged-in user
+  @UseGuards(AuthGuard('jwt'))
+  @Get()
+  async getUserTasks(@Request() req: AuthRequest): Promise<any> {
+    const userId = req.user.id; // ✅ Strongly typed userId
+
+    if (!userId) {
+      throw new BadRequestException('User ID not found in token.');
+    }
+
+    console.log('Fetching tasks for user:', userId);
     return this.tasksService.getTasks(userId);
   }
 
+  // ✅ POST - Create a new task (only for logged-in users)
+  @UseGuards(AuthGuard('jwt')) // ✅ PROTECTED Route
   @Post()
-  createTask(
-    @Body() body: { userId: string; title: string; description: string },
+  @HttpCode(HttpStatus.CREATED)
+  async createTask(
+    @Request() req: AuthRequest,
+    @Body() createTaskDto: CreateTaskDto,
   ) {
+    const userId = req.user.id; // ✅ Get userId from token
+
+    if (!createTaskDto.title) {
+      throw new BadRequestException('Task Title is required.');
+    }
+
     return this.tasksService.createTask(
-      body.userId,
-      body.title,
-      body.description,
+      userId,
+      createTaskDto.title,
+      createTaskDto.description || '',
     );
   }
 
+  // ✅ PUT - Update task completion status
+  @UseGuards(AuthGuard('jwt'))
   @Put(':id')
-  updateTask(@Param('id') id: string, @Body() body: { completed: boolean }) {
-    return this.tasksService.updateTask(id, body.completed);
+  @HttpCode(HttpStatus.OK)
+  async updateTask(
+    @Param('id') id: string,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ): Promise<any> {
+    if (!id) {
+      throw new BadRequestException('Task ID is required.');
+    }
+
+    return this.tasksService.updateTask(id, updateTaskDto.completed);
   }
 
+  // ✅ DELETE - Remove a task
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
-  deleteTask(@Param('id') id: string) {
-    return this.tasksService.deleteTask(id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteTask(@Param('id') id: string): Promise<void> {
+    if (!id) {
+      throw new BadRequestException('Task ID is required.');
+    }
+
+    await this.tasksService.deleteTask(id);
   }
 }
