@@ -6,87 +6,48 @@ import {
   Delete,
   Body,
   Param,
-  HttpCode,
-  HttpStatus,
-  UseGuards,
-  BadRequestException,
-  Request, // ✅ Import `@Request()`
 } from '@nestjs/common';
-import { Request as ExpressRequest } from 'express'; // ✅ Alias Express Request
 import { TasksService } from './tasks.service';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
-import { AuthGuard } from '@nestjs/passport';
-import { UserPayload } from 'src/auth/user.interface';
-
-// ✅ Ensure UserPayload has an `id`
-interface AuthRequest extends ExpressRequest {
-  user: UserPayload & { id: string };
-}
 
 @Controller('tasks')
 export class TasksController {
-  constructor(private readonly tasksService: TasksService) {}
+  constructor(private tasksService: TasksService) {}
 
-  // ✅ GET all tasks for the logged-in user
-  @UseGuards(AuthGuard('jwt'))
-  @Get()
-  async getUserTasks(@Request() req: AuthRequest): Promise<any> {
-    const userId = req.user.id; // ✅ Strongly typed userId
-
-    if (!userId) {
-      throw new BadRequestException('User ID not found in token.');
-    }
-
-    console.log('Fetching tasks for user:', userId);
+  // ✅ Get all tasks for a specific user
+  @Get(':userId')
+  getTasks(@Param('userId') userId: string) {
     return this.tasksService.getTasks(userId);
   }
 
-  // ✅ POST - Create a new task (only for logged-in users)
-  @UseGuards(AuthGuard('jwt')) // ✅ PROTECTED Route
+  // ✅ Get a single task by its ID
+  @Get('task/:id') // 🔹 New endpoint to fetch a specific task
+  getTask(@Param('id') id: string) {
+    return this.tasksService.getTask(id);
+  }
+
+  // ✅ Create a new task
   @Post()
-  @HttpCode(HttpStatus.CREATED)
-  async createTask(
-    @Request() req: AuthRequest,
-    @Body() createTaskDto: CreateTaskDto,
+  createTask(
+    @Body() body: { userId: string; title: string; description: string },
   ) {
-    const userId = req.user.id; // ✅ Get userId from token
-
-    if (!createTaskDto.title) {
-      throw new BadRequestException('Task Title is required.');
-    }
-
     return this.tasksService.createTask(
-      userId,
-      createTaskDto.title,
-      createTaskDto.description || '',
+      body.userId,
+      body.title,
+      body.description,
     );
   }
 
-  // ✅ PUT - Update task completion status
-  @UseGuards(AuthGuard('jwt'))
   @Put(':id')
-  @HttpCode(HttpStatus.OK)
-  async updateTask(
+  updateTask(
     @Param('id') id: string,
-    @Body() updateTaskDto: UpdateTaskDto,
-  ): Promise<any> {
-    if (!id) {
-      throw new BadRequestException('Task ID is required.');
-    }
-
-    return this.tasksService.updateTask(id, updateTaskDto.completed);
+    @Body() body: { title?: string; description?: string; completed?: boolean },
+  ) {
+    return this.tasksService.updateTask(id, body);
   }
 
-  // ✅ DELETE - Remove a task
-  @UseGuards(AuthGuard('jwt'))
+  // ✅ Delete a task
   @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteTask(@Param('id') id: string): Promise<void> {
-    if (!id) {
-      throw new BadRequestException('Task ID is required.');
-    }
-
-    await this.tasksService.deleteTask(id);
+  deleteTask(@Param('id') id: string) {
+    return this.tasksService.deleteTask(id);
   }
 }

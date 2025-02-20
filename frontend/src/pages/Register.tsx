@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Register = () => {
@@ -9,34 +9,25 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // ✅ Ensure no user is logged in when opening the Register page
-  useEffect(() => {
-    localStorage.removeItem('token'); // 🛠 Remove any stored token
-    localStorage.removeItem('userId'); // 🛠 Remove stored userId
-  }, []);
-
   const handleRegister = async () => {
-    if (!name || !email || !password) {
-      alert('❌ Please fill out all fields.');
+    if (!email || !password) {
+      alert('❌ Please enter an email and password.');
       return;
     }
 
     setLoading(true);
 
     try {
-      console.log('🔹 Registering user:', { name, email, password });
+      console.log('🔹 Registering user:', { email, password });
 
-      const res = await axios.post('http://localhost:3000/auth/register', {
-        name,  // ✅ Name added in request
-        email,
-        password,
-      });
+      const res = await axios.post('http://localhost:3000/auth/register', { name,email, password });
 
       console.log('✅ Registration successful:', res.data);
 
-      // ✅ Redirect to login instead of dashboard
-      navigate('/login'); 
-    } catch (error: unknown) {
+      alert('✅ Registration successful! Please log in.');
+
+      navigate('/login'); // ✅ Redirect to login after registration
+    } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error('❌ Registration Error:', error.response?.data || error.message);
         alert(error.response?.data?.message || '❌ Registration failed.');
@@ -50,32 +41,35 @@ const Register = () => {
   };
 
   return (
-    <div style={{ maxWidth: '300px', margin: 'auto', textAlign: 'center' }}>
+    <div style={{ textAlign: 'center', maxWidth: '300px', margin: 'auto' }}>
+   
       <h2>Register</h2>
       <input
-        type="text"  // ✅ Fixed type (no `name` type in HTML)
+        type="name"
         placeholder="Name"
-        value={name}  // ✅ Fixed value
+        value={name}
         onChange={(e) => setName(e.target.value)}
-        style={{ display: 'block', margin: '10px auto', padding: '8px' }}
       />
       <input
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        style={{ display: 'block', margin: '10px auto', padding: '8px' }}
       />
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        style={{ display: 'block', margin: '10px auto', padding: '8px' }}
       />
-      <button onClick={handleRegister} disabled={loading} style={{ padding: '8px 16px' }}>
+      <button onClick={handleRegister} disabled={loading}>
         {loading ? 'Registering...' : 'Register'}
       </button>
+
+      {/* ✅ Small text link to login page */}
+      <p style={{ fontSize: '12px', marginTop: '10px' }}>
+        Already have an account? <Link to="/login">Login here</Link>
+      </p>
     </div>
   );
 };
