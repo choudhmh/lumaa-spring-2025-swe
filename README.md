@@ -53,28 +53,26 @@ npm install
 ```
 Start the server
 ```
-npm run dev
+npm run start:dev
 ```
 By default, the backend will be running on ```http://localhost:3000```
 
-### 3. Frontend (React + TypeScript)
+## 3️⃣ Run the Frontend (React + TypeScript)
 
-- **Login / Register**:
-  - Simple forms for **Register** and **Login**.
-  - Store JWT (e.g., in `localStorage`) upon successful login.
-  - If not authenticated, the user should not see the tasks page.
-- **Tasks Page**:
-  - Fetch tasks from `GET /tasks` (including auth token in headers).
-  - Display the list of tasks.
-  - Form to create a new task (`POST /tasks`).
-  - Buttons/fields to update a task (`PUT /tasks/:id`).
-  - Button to delete a task (`DELETE /tasks/:id`).
-- **Navigation**:
-  - Show `Login`/`Register` if not authenticated.
-  - Show `Logout` if authenticated.
-- **Setup**:
-  - `npm install` then `npm start` (or `npm run dev`) to run.
-  - Document how to point the frontend at the backend (e.g., `.env` file, base URL).
+Navigate to the frontend directory
+```
+cd frontend
+```
+Install dependencies
+```
+npm install
+```
+Start the server
+```
+npm run dev
+```
+By default, the frontend will be running on ```http://localhost:5173```
+
 
 ---
 
