@@ -36,29 +36,26 @@ DATABASE_URL="postgresql://admin:admin@localhost:5432/task_db"
 JWT_SECRET="your_super_secret_key"
 ```
 
+### Run Migrations
+Use Prisma to set up the database schema:
+```
+npx prisma migrate dev --name init
+```
+## 2️⃣ Run the Backend
+Navigate to the backend directory:
+```
+cd backend
+```
+Install dependencies
+```
+npm install
 
-
-### 2. Backend (Node.js or Nest.js)
-
-- **Tasks CRUD**:  
-  - `GET /tasks` – Retrieve a list of tasks (optionally filtered by user).  
-  - `POST /tasks` – Create a new task.  
-  - `PUT /tasks/:id` – Update a task (e.g., mark as complete, edit text).  
-  - `DELETE /tasks/:id` – Delete a task.
-- **Task Model**:
-  - `id`: Primary key
-  - `title`: string
-  - `description`: string (optional)
-  - `isComplete`: boolean (default `false`)
-  - _(Optional)_ `userId` to link tasks to the user who created them
-- **Database**: PostgreSQL
-  - Provide instructions/migrations to set up:
-    - `users` table (with hashed passwords)
-    - `tasks` table
-- **Setup**:
-  - `npm install` to install dependencies
-  - `npm run start` (or `npm run dev`) to run the server
-  - Document any environment variables (e.g., database connection string, JWT secret)
+```
+Start the server
+```
+npm run dev
+```
+By default, the backend will be running on ```http://localhost:3000```
 
 ### 3. Frontend (React + TypeScript)
 
