@@ -18,12 +18,12 @@ Had to create a “Task Management” application with **React + TypeScript** (f
 ---
 ## 🚀 Project Setup
 
-1️⃣ Set Up the Database
+**1️⃣ Set Up the Database**
 Prerequisites
 - **Install PostgreSQL**
 - **Install Node.js and npm**
 
-   1.2 Install Required Dependencies
+**1.2 Install Required Dependencies**
 Navigate to the backend folder and install necessary packages:
 ```
 cd backend
@@ -39,6 +39,21 @@ And install Prisma ORM:
 ```
 npm install @prisma/client
 npm install -D prisma
+```
+
+**1.3 Set Up PostgreSQL Database**
+   
+I've used Docker as I did not wanted to install PostgreSQL:
+```
+docker run --name postgres -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=task_db -p 5432:5432 -d postgres
+```
+
+Or install PostgreSQL locally.
+
+**1.4 Configure Prisma**
+Initialize Prisma:
+```
+npx prisma init
 ```
 
 ## Configure Environment Variables
@@ -83,7 +98,21 @@ Install dependencies
 ```
 npm install
 ```
+
+**2.2 Install Required Packages**
+We need libraries for API calls, authentication, and UI styling:
+
+```
+npm install axios react-router-dom @tanstack/react-query react-toastify tailwindcss
+```
+Initialize Tailwind CSS:
+
+```
+npx tailwindcss init -p
+```
+
 Start the server
+
 ```
 npm run dev
 ```
