@@ -12,7 +12,6 @@ Had to create a “Task Management” application with **React + TypeScript** (f
    - **Create a new task**.
    - **Update an existing task** (e.g., mark complete, edit).
    - **Delete a task**.
-
 Focus is not on the design but on the functionality making sure everythign works perfectly
 ---
 
