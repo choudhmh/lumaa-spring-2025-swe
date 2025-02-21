@@ -20,20 +20,22 @@ This challenge is intended to be completed within ~3 hours, so keep solutions mi
 
 ---
 
-## Requirements
+## 🚀 Project Setup
 
-### 1. Authentication
+1️⃣ Set Up the Database
+Prerequisites
+Install PostgreSQL
+Install Node.js and npm
 
-- **User Model**:
-  - `id`: Primary key
-  - `username`: Unique string
-  - `password`: Hashed string
-- **Endpoints**:
-  - `POST /auth/register` – Create a new user
-  - `POST /auth/login` – Login user, return a token (e.g., JWT)
-- **Secure the Tasks Routes**: Only authenticated users can perform task operations.  
-  - **Password Hashing**: Use `bcrypt` or another hashing library to store passwords securely.
-  - **Token Verification**: Verify the token (JWT) on each request to protected routes.
+## Configure Environment Variables
+
+Create a .env file in the backend directory and add the following:
+
+````DATABASE_URL=postgresql://<username>:<password>@localhost:5432/<database_name>
+PORT=3000
+JWT_SECRET=your_secret_key```
+````
+
 
 ### 2. Backend (Node.js or Nest.js)
 
