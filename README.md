@@ -125,4 +125,9 @@ By default, the frontend will be running on ```http://localhost:5173```
 - Ensure that CORS is enabled on the backend for API calls to work properly.
 - Test authentication by logging in and using the JWT token in headers.
 - Check the dashboard to verify that tasks update correctly.
+---
+## Salary Expectation
+I'm not much interested in the salary but more for to gain valuabe industry expereince on projects. Happy to discuss hours and salary during interview. At most around $1000 a month would be suficient for me depending on the hours or can work on project bases
+
+---
 
