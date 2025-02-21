@@ -23,7 +23,11 @@ Prerequisites
 - **Install PostgreSQL**
 - **Install Node.js and npm**
 
+clone the git project:
+
 **1.2 Install Required Dependencies**
+
+Most dependecies shoud come with it once cloned but if it doesn't work then you will have to install them.
 Navigate to the backend folder and install necessary packages:
 ```
 cd backend
