@@ -37,6 +37,7 @@ Use Prisma to set up the database schema:
 ```
 npx prisma migrate dev --name init
 ```
+---
 ## 2️⃣ Run the Backend
 Navigate to the backend directory:
 ```
@@ -53,6 +54,7 @@ npm run start:dev
 ```
 By default, the backend will be running on ```http://localhost:3000```
 
+---
 ## 3️⃣ Run the Frontend (React + TypeScript)
 
 Navigate to the frontend directory
