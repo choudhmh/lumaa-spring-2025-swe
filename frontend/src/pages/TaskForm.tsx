@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // ✅ Import Link
 import axios from 'axios';
 
 const TaskForm = () => {
@@ -11,7 +11,7 @@ const TaskForm = () => {
     if (token) {
       try {
         const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT
-        setTaskData((prev) => ({ ...prev, userId: decodedToken.sub })); // ✅ Extract userId from token
+        setTaskData((prev) => ({ ...prev, userId: decodedToken.sub }));
       } catch (error) {
         console.error('Error decoding token:', error);
       }
@@ -24,7 +24,10 @@ const TaskForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+<<<<<<< HEAD
 
+=======
+>>>>>>> a3971c8 (few css updates)
     try {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('No token found');
@@ -32,19 +35,29 @@ const TaskForm = () => {
       await axios.post(
         'http://localhost:3000/tasks',
         taskData,
+<<<<<<< HEAD
         {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         }
+=======
+        { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } }
+>>>>>>> a3971c8 (few css updates)
       );
 
       alert('✅ Task Created Successfully!');
+<<<<<<< HEAD
       navigate('/dashboard'); 
     } catch (error) {
       console.error('Error creating task:', error);
       alert('Failed to create task.');
+=======
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('❌ Task Submission Error:', axios.isAxiosError(error) ? error.response?.data || error.message : (error as Error).message);
+>>>>>>> a3971c8 (few css updates)
     }
   };
 
@@ -61,6 +74,13 @@ const TaskForm = () => {
           </button>
         </div>
       </form>
+
+      {/* 🔹 Cancel Link */}
+      <p>
+        <Link to="/dashboard" style={{ color: 'red', textDecoration: 'underline', cursor: 'pointer' }}>
+          ❌ Cancel
+        </Link>
+      </p>
     </div>
   );
 };

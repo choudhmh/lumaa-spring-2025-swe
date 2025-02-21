@@ -81,7 +81,11 @@ const Dashboard = () => {
             <table className="task-table" style={{ width: '100%' }}>
               <thead>
                 <tr>
+<<<<<<< HEAD
                   <th>ID</th>
+=======
+                  <th>Task ID</th>
+>>>>>>> a3971c8 (few css updates)
                   <th>Title</th>
                   <th>Description</th>
                   <th>Status</th>
