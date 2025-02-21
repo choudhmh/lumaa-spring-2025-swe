@@ -26,13 +26,13 @@ const Register = () => {
 
       alert('✅ Registration successful! Please log in.');
 
-      navigate('/login'); // ✅ Redirect to login after registration
+      navigate('/login');
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error('❌ Registration Error:', error.response?.data || error.message);
-        alert(error.response?.data?.message || '❌ Registration failed.');
+        console.error('Registration Error:', error.response?.data || error.message);
+        alert(error.response?.data?.message || 'Registration failed.');
       } else {
-        console.error('❌ Unexpected Error:', error);
+        console.error('Unexpected Error:', error);
         alert('Something went wrong. Please try again.');
       }
     } finally {
@@ -66,7 +66,7 @@ const Register = () => {
         {loading ? 'Registering...' : 'Register'}
       </button>
 
-      {/* ✅ Small text link to login page */}
+
       <p style={{ fontSize: '12px', marginTop: '10px' }}>
         Already have an account? <Link to="/login">Login here</Link>
       </p>

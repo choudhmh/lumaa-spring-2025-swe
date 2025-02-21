@@ -1,8 +1,84 @@
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 1900px;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.task-table th,
+.task-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.task-table th {
+  background: #f4f4f4;
+}
+
+.task-table .completed {
+  color: green;
+  font-weight: bold;
+}
+
+.task-table .pending {
+  color: red;
+  font-weight: bold;
+}
+
+.task-table td:nth-child(4) {
+  width: 150px; /* Status column */
+}
+
+.task-table td:nth-child(5) {
+  width: 200px; /* Actions column */
+  white-space: nowrap;
+}
+
+button {
+  padding: 6px 10px;
+  border: none;
+  cursor: pointer;
+  margin: 2px;
+}
+
+button.delete {
+  background-color: red;
+  color: white;
+}
+
+button.edit-btn {
+  background-color: blue;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .task-table th,
+  .task-table td {
+    padding: 8px;
+    font-size: 14px;
   }
+  
+  .task-table td:nth-child(4),
+  .task-table td:nth-child(5) {
+    width: auto;
+  }
+}
+
   
   h2 {
     text-align: center;

@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 
-@Controller('auth') // All routes start with /auth
+@Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -14,7 +14,7 @@ export class AuthController {
     return this.authService.register(registerDto);
   }
 
-  @Post('login') // ✅ Add the login route
+  @Post('login')
   async login(@Body() loginDto: LoginDto) {
     console.log('🔹 Login request received:', loginDto);
     return this.authService.login(loginDto.email, loginDto.password);

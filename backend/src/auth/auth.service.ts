@@ -89,13 +89,13 @@ export class AuthService {
 
     if (!isPasswordValid) {
       console.warn('⚠️ Incorrect password for:', email);
-      throw new UnauthorizedException('Invalid credentials'); // ❌ Password incorrect
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     // ✅ Generate JWT token with correct structure
     console.log('🔹 Generating JWT token for user:', user.id);
     const token = this.jwtService.sign({
-      sub: user.id, // ✅ Use "sub" instead of "userId" for NestJS standards
+      sub: user.id,
       email: user.email,
     });
 

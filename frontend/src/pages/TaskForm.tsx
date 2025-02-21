@@ -4,9 +4,8 @@ import axios from 'axios';
 
 const TaskForm = () => {
   const [taskData, setTaskData] = useState({ title: '', description: '', userId: '' });
-  const navigate = useNavigate(); // ✅ Hook for redirection
+  const navigate = useNavigate();
 
-  // 🔹 Load userId from the stored token when the component mounts
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -14,7 +13,7 @@ const TaskForm = () => {
         const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT
         setTaskData((prev) => ({ ...prev, userId: decodedToken.sub })); // ✅ Extract userId from token
       } catch (error) {
-        console.error('❌ Error decoding token:', error);
+        console.error('Error decoding token:', error);
       }
     }
   }, []);
@@ -25,14 +24,14 @@ const TaskForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('No token found');
 
-      const response = await axios.post(
+      await axios.post(
         'http://localhost:3000/tasks',
-        taskData, // ✅ Now includes userId
+        taskData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -41,26 +40,26 @@ const TaskForm = () => {
         }
       );
 
-      console.log('✅ Task created:', response.data);
       alert('✅ Task Created Successfully!');
-
-      navigate('/dashboard'); // ✅ Redirect to Dashboard after task creation
+      navigate('/dashboard'); 
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error('❌ Task Submission Error:', error.response?.data || error.message);
-      } else {
-        console.error('❌ An unexpected error occurred:', (error as Error).message);
-      }
+      console.error('Error creating task:', error);
+      alert('Failed to create task.');
     }
   };
 
   return (
     <div style={{ maxWidth: '500px', margin: 'auto', textAlign: 'center' }}>
-      <h2>➕ Create Task</h2>
+      <h2>Create/Add Task</h2>
       <form onSubmit={handleSubmit}>
         <input name="title" value={taskData.title} onChange={handleChange} placeholder="Task Title" required />
         <input name="description" value={taskData.description} onChange={handleChange} placeholder="Task Description" required />
-        <button type="submit">Create Task</button>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
+          <button type="submit">Create Task</button>
+          <button type="button" onClick={() => navigate('/dashboard')} style={{ background: 'none', color: 'blue', border: 'none', cursor: 'pointer' }}>
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );

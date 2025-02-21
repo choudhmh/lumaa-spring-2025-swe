@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // ✅ Import Link from react-router-dom
+import { useNavigate, Link } from 'react-router-dom'; 
 import axios from 'axios';
 
 const Login = () => {
@@ -32,7 +32,7 @@ const Login = () => {
       localStorage.setItem('token', token);
       localStorage.setItem('userId', userId);
 
-      navigate('/dashboard'); // ✅ Redirect to the dashboard
+      navigate('/dashboard'); // Redirect to the dashboard
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error('❌ Login Error:', error.response?.data || error.message);
@@ -65,7 +65,7 @@ const Login = () => {
         {loading ? 'Logging in...' : 'Login'}
       </button>
 
-      {/* ✅ Small text link to register page */}
+
       <p style={{ fontSize: '12px', marginTop: '10px' }}>
         Don't have an account? <Link to="/register">Register here</Link>
       </p>

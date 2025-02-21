@@ -12,7 +12,7 @@ const EditTask = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // ✅ Fetch the task details when the component mounts
+  // Fetch the task details when the component mounts
   useEffect(() => {
     if (!taskId) {
       setError('Invalid task ID.');
@@ -30,7 +30,7 @@ const EditTask = () => {
         setDescription(task.description || '');
         setCompleted(task.completed);
       } catch (err) {
-        console.error('❌ Error fetching task:', err);
+        console.error('Error fetching task:', err);
         setError('Failed to fetch task data.');
       } finally {
         setLoading(false);
@@ -40,7 +40,7 @@ const EditTask = () => {
     fetchTask();
   }, [taskId]);
 
-  // ✅ Handle updating the task
+  // Handle updating the task
   const handleUpdate = async () => {
     if (!taskId) {
       setError('Task ID is missing.');
@@ -67,9 +67,9 @@ const EditTask = () => {
       );
 
       alert('✅ Task updated successfully!');
-      navigate('/dashboard'); // Redirect after successful update
+      navigate('/dashboard'); 
     } catch (err) {
-      console.error('❌ Error updating task:', err);
+      console.error('Error updating task:', err);
       setError('Failed to update task.');
     } finally {
       setLoading(false);
@@ -80,7 +80,7 @@ const EditTask = () => {
     <div style={{ maxWidth: '500px', margin: 'auto', textAlign: 'center' }}>
       <h2>📝 Edit Task</h2>
 
-      {/* ✅ Display error message if there is one */}
+    
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <input
@@ -102,7 +102,7 @@ const EditTask = () => {
         <input
           type="checkbox"
           checked={completed}
-          onChange={(e) => setCompleted(e.target.checked)} // ✅ Fix: Explicitly set `checked` value
+          onChange={(e) => setCompleted(e.target.checked)} // Fix: Explicitly set `checked` value
         />
         Completed
       </label>
