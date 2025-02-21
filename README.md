@@ -24,6 +24,9 @@ Prerequisites
 - **Install Node.js and npm**
 
 clone the git project:
+```
+https://github.com/choudhmh/lumaa-spring-2025-swe
+```
 
 **1.2 Install Required Dependencies**
 
@@ -62,7 +65,7 @@ npx prisma init
 
 ## Configure Environment Variables
 
-Create a ```.env``` file in the backend directory and add the following:
+There is a .env file if it doesn't existe create a ```.env``` file in the backend directory and add the following:
 
 ```
 DATABASE_URL="postgresql://admin:admin@localhost:5432/task_db"
