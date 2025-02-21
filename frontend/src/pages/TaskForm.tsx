@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // ✅ Import Link
 import axios from 'axios';
 
 const TaskForm = () => {
@@ -11,9 +11,9 @@ const TaskForm = () => {
     if (token) {
       try {
         const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT
-        setTaskData((prev) => ({ ...prev, userId: decodedToken.sub })); // ✅ Extract userId from token
+        setTaskData((prev) => ({ ...prev, userId: decodedToken.sub }));
       } catch (error) {
-        console.error('Error decoding token:', error);
+        console.error('❌ Error decoding token:', error);
       }
     }
   }, []);
@@ -24,43 +24,39 @@ const TaskForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('No token found');
 
-      await axios.post(
+      const response = await axios.post(
         'http://localhost:3000/tasks',
         taskData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } }
       );
 
+      console.log('✅ Task created:', response.data);
       alert('✅ Task Created Successfully!');
-      navigate('/dashboard'); 
+      navigate('/dashboard');
     } catch (error) {
-      console.error('Error creating task:', error);
-      alert('Failed to create task.');
+      console.error('❌ Task Submission Error:', axios.isAxiosError(error) ? error.response?.data || error.message : (error as Error).message);
     }
   };
 
   return (
     <div style={{ maxWidth: '500px', margin: 'auto', textAlign: 'center' }}>
-      <h2>Create/Add Task</h2>
+      <h2>➕ Create Task</h2>
       <form onSubmit={handleSubmit}>
         <input name="title" value={taskData.title} onChange={handleChange} placeholder="Task Title" required />
         <input name="description" value={taskData.description} onChange={handleChange} placeholder="Task Description" required />
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
-          <button type="submit">Create Task</button>
-          <button type="button" onClick={() => navigate('/dashboard')} style={{ background: 'none', color: 'blue', border: 'none', cursor: 'pointer' }}>
-            Cancel
-          </button>
-        </div>
+        <button type="submit">Create Task</button>
       </form>
+
+      {/* 🔹 Cancel Link */}
+      <p>
+        <Link to="/dashboard" style={{ color: 'red', textDecoration: 'underline', cursor: 'pointer' }}>
+          ❌ Cancel
+        </Link>
+      </p>
     </div>
   );
 };
