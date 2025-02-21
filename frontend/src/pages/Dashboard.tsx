@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 interface Task {
   id: string;
   title: string;
   description?: string;
-  isComplete: boolean;
+  completed: boolean; // ✅ Update to match API response
 }
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(false);
   const userId = localStorage.getItem('userId');
-  // const navigate = useNavigate();
+  const location = useLocation(); // ✅ Detect navigation changes
 
   useEffect(() => {
     if (!userId) {
@@ -24,9 +24,10 @@ const Dashboard = () => {
     const fetchTasks = async () => {
       setLoading(true);
       try {
-        console.log(`🔹 Fetching tasks for user: ${userId}`);
+        console.log(`🔹 Fetching latest tasks for user: ${userId}`);
         const res = await axios.get(`http://localhost:3000/tasks/${userId}`);
-        setTasks(res.data);
+        console.log('📥 API Response:', res.data); // ✅ Debugging output
+        setTasks(res.data); // ✅ Ensure fresh data is set
       } catch (error) {
         console.error('❌ Error fetching tasks:', error);
       } finally {
@@ -35,7 +36,7 @@ const Dashboard = () => {
     };
 
     fetchTasks();
-  }, [userId]);
+  }, [userId, location]); // ✅ Rerun when userId or URL changes
 
   const handleDelete = async (taskId: string) => {
     if (!window.confirm('Are you sure you want to delete this task?')) return;
@@ -46,7 +47,7 @@ const Dashboard = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setTasks(tasks.filter((task) => task.id !== taskId));
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
       alert('✅ Task deleted successfully!');
     } catch (error) {
       console.error('❌ Error deleting task:', error);
@@ -82,14 +83,13 @@ const Dashboard = () => {
                 <td>{task.id}</td>
                 <td>{task.title}</td>
                 <td>{task.description || 'No description'}</td>
-                <td style={{ color: task.isComplete ? 'green' : 'red' }}>
-                  {task.isComplete ? '✅ Completed' : '❌ Not Completed'}
+                <td style={{ color: task.completed ? 'green' : 'red' }}>
+                  {task.completed ? '✅ Completed' : '❌ Not Completed'}
                 </td>
                 <td>
-                  {/* ✅ Link to Edit Page */}
                   <Link to={`/edit/${task.id}`} style={{ marginRight: '10px' }}>
-  ✏️ Update
-</Link>
+                    ✏️ Update
+                  </Link>
                   <button onClick={() => handleDelete(task.id)} style={{ color: 'red' }}>
                     🗑️ Delete
                   </button>
