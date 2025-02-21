@@ -23,6 +23,32 @@ Prerequisites
 - **Install PostgreSQL**
 - **Install Node.js and npm**
 
+   1.2 Install Required Dependencies
+Navigate to the backend folder and install necessary packages:
+
+cd backend
+
+``` npm install @nestjs/config @nestjs/jwt @nestjs/passport passport passport-jwt passport-local bcryptjs class-validator class-transformer @prisma/client
+```
+And install Prisma ORM:
+
+```
+npm install @prisma/client
+npm install -D prisma
+```
+
+   1.3 Set Up PostgreSQL Database
+I've used Docker as i did wanted to install PostgreSQL:
+```
+docker run --name postgres -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=task_db -p 5432:5432 -d postgres
+``
+Or install PostgreSQL locally.
+1.4 Configure Prisma
+Initialize Prisma:
+```
+npx prisma init
+```
+
 ## Configure Environment Variables
 
 Create a ```.env``` file in the backend directory and add the following:
