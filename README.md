@@ -31,10 +31,11 @@ Install Node.js and npm
 
 Create a .env file in the backend directory and add the following:
 
-```DATABASE_URL=postgresql://<username>:<password>@localhost:5432/<database_name>
-PORT=3000
-JWT_SECRET=your_secret_key```
 ```
+DATABASE_URL="postgresql://admin:admin@localhost:5432/task_db"
+JWT_SECRET="your_super_secret_key"
+```
+
 
 
 ### 2. Backend (Node.js or Nest.js)
