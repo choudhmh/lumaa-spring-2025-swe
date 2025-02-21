@@ -45,7 +45,9 @@ npm install -D prisma
 I've used Docker as I did not wanted to install PostgreSQL:
 
 ```
+
 docker run --name postgres -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=task_db -p 5432:5432 -d postgres
+
 ``
 Or install PostgreSQL locally.
 
@@ -54,6 +56,7 @@ Initialize Prisma:
 
 ```
 npx prisma init
+
 ```
 
 ## Configure Environment Variables
