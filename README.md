@@ -13,7 +13,7 @@ Had to create a “Task Management” application with **React + TypeScript** (f
    - **Update an existing task** (e.g., mark complete, edit).
    - **Delete a task**.
    -
-Focus is not on the design but on the functionality making sure everythign works perfectly
+Focus is not on the design but on the functionality making sure everything works perfectly
 ---
 
 ## 🚀 Project Setup
@@ -69,6 +69,11 @@ npm run dev
 ```
 By default, the frontend will be running on ```http://localhost:5173```
 
-
 ---
+
+## 4️⃣ Testing Notes
+- Use ideally something like Postman (or cURL) to test API endpoints.
+- Ensure that CORS is enabled on the backend for API calls to work properly.
+- Test authentication by logging in and using the JWT token in headers.
+- Check the dashboard to verify that tasks update correctly.
 
