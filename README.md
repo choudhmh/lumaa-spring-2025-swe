@@ -16,6 +16,12 @@ Had to create a “Task Management” application with **React + TypeScript** (f
 3. Focus is not on the design but on the functionality making sure everything works perfectly
 
 ---
+## Video Link
+
+Here an video example of how the completed project functions:
+
+[📹 Demo Video](demo-video.md)
+
 ## 🚀 Project Setup
 
 **1️⃣ Set Up the Database**
