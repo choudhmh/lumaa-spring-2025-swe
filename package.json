@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "@types/sinonjs__fake-timers": "^8.1.5",
+    "@types/sizzle": "^2.3.9",
+    "cypress": "^14.0.3"
+  }
+}
