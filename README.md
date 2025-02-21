@@ -1,12 +1,10 @@
 # Full-Stack Coding Challenge
 
-**Deadline**: Sunday, Feb 23th 11:59 pm PST
-
 ---
 
 ## Overview
 
-Create a “Task Management” application with **React + TypeScript** (frontend), **Node.js** (or **Nest.js**) (backend), and **PostgreSQL** (database). The application should:
+Had to create a “Task Management” application with **React + TypeScript** (frontend), **Node.js** (or **Nest.js**) (backend), and **PostgreSQL** (database). The application contains:
 
 1. **Register** (sign up) and **Log in** (sign in) users.
 2. After logging in, allow users to:
@@ -14,9 +12,6 @@ Create a “Task Management” application with **React + TypeScript** (frontend
    - **Create a new task**.
    - **Update an existing task** (e.g., mark complete, edit).
    - **Delete a task**.
-
-Focus on **correctness**, **functionality**, and **code clarity** rather than visual design.  
-This challenge is intended to be completed within ~3 hours, so keep solutions minimal yet functional.
 
 ---
 
