@@ -138,6 +138,42 @@ By default, the frontend will be running on ```http://localhost:5173```
 - Ensure that CORS is enabled on the backend for API calls to work properly.
 - E2EE Testing was done using Cypress - Registration, Login, Create Task, Update Task & Delete Task. **All worked perfectly!**
 - Reminder for Cypress to work localhost must be changed to ```http://localhost:5173/```
+
+  ## Testing Procedure
+Testing was done using Cypress to make sure everything fully works according to the requirements. Cypress dependency is already installed in the package.json
+
+To test the code fully, in one termninal make sure the application is running: 
+
+```
+for backend
+npm run start:dev
+```
+
+Then on another terminal:
+
+```
+for frontend:
+npm run dev
+```
+
+Open another terminal type this:
+```
+npx cypress open
+
+```
+This will launch the Cypress Test Runner.
+
+Then navigate to the cypress E2E folder ``` cd cypress/e2e/ ```
+and on the terminal run this:
+
+```
+npx cypress run
+```
+This setup should allow you to efficiently test 
+
+Hope this is clear!
+
+## Thank You, Happy Coding! ##
 ---
 ## Salary Expectation
 I'm not much interested in the salary but more for to gain valuabe industry expereince on projects. Happy to discuss hours and salary during interview. At most around $1000 a month would be suficient for me depending on the hours or can work on project bases
